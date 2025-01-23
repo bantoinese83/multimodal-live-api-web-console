@@ -52,14 +52,14 @@
   inherits: false;
 }
 
-.disabled .mic-button,
-.mic-button.disabled {
+.disabled .microphone-button,
+.microphone-button.disabled {
   &:before {
     background: rgba(0, 0, 0, 0);
   }
 }
 
-.mic-button {
+.microphone-button {
   position: relative;
   background-color: var(--accent-red);
   z-index: 1;
@@ -103,7 +103,7 @@
   }
 }
 
-.control-tray {
+.video-control-tray {
   position: absolute;
   bottom: 0;
   left: 50%;

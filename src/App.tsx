@@ -1,20 +1,15 @@
 import { useRef, useState } from "react";
 import "./App.scss";
-import { LiveAPIProvider } from "./contexts/LiveAPIContext";
-import ControlTray from "./components/control-tray/ControlTray";
-import cn from "classnames";
+import { LiveAPIProvider } from "./api/LiveAPI";
+import VideoControlTray from "./components/control-tray/VideoControlTray";
 
-const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || "AIzaSyDmxvr6uXs_WyDnwqNiJ4QynI67vJUuj10";
-const host = "generativelanguage.googleapis.com";
-const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
-
-function App() {
+function MainApp() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
 
     return (
-        <div className="App">
-            <LiveAPIProvider url={uri} apiKey={API_KEY}>
+        <div className="MainApp">
+            <LiveAPIProvider>
                 <div className="streaming-console">
                     <main>
                         <div className="main-app-area">
@@ -27,7 +22,7 @@ function App() {
                                 playsInline
                             />
                         </div>
-                        <ControlTray
+                        <VideoControlTray
                             videoRef={videoRef}
                             supportsVideo={true}
                             onVideoStreamChange={setVideoStream}
@@ -39,4 +34,4 @@ function App() {
     );
 }
 
-export default App;
+export default MainApp;
