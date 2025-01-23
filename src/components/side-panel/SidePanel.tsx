@@ -43,6 +43,11 @@ export default function SidePanel() {
   } | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // New state for role and skill level
+  const [role, setRole] = useState("");
+  const [skillLevel, setSkillLevel] = useState("");
+  const [overallScore, setOverallScore] = useState<number | null>(null);
+
   //scroll the log to the bottom when new logs come in
   useEffect(() => {
     if (loggerRef.current) {
@@ -156,6 +161,31 @@ export default function SidePanel() {
           </button>
         </div>
       </div>
+      {/* Input fields for role and skill level */}
+      <div className="input-fields">
+        <label>
+          Role:
+          <input
+            type="text"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          />
+        </label>
+        <label>
+          Skill Level:
+          <input
+            type="text"
+            value={skillLevel}
+            onChange={(e) => setSkillLevel(e.target.value)}
+          />
+        </label>
+      </div>
+      {/* Section to display the overall score */}
+      {overallScore !== null && (
+        <div className="overall-score">
+          <h3>Overall Score: {overallScore}</h3>
+        </div>
+      )}
     </div>
   );
 }

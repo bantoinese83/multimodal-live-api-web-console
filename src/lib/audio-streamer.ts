@@ -253,6 +253,10 @@ export class AudioStreamer {
       this.onComplete();
     }
   }
+
+  playInterviewData(interviewData: Uint8Array) {
+    this.addPCM16(interviewData);
+  }
 }
 
 // // Usage example:

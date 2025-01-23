@@ -108,4 +108,9 @@ export class AudioRecorder extends EventEmitter {
     }
     handleStop();
   }
+
+  sendInterviewDataToServer(data: any) {
+    // Logic to send interview data to the server
+    console.log("Sending interview data to the server", data);
+  }
 }
