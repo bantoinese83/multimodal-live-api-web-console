@@ -16,7 +16,6 @@
 
 import { create } from "zustand";
 import { StreamingLog } from "../multimodal-live-types";
-import { mockLogs } from "../components/logger/mock-logs";
 
 interface StoreLoggerState {
   maxLogs: number;
@@ -61,5 +60,4 @@ export const useLoggerStore = create<StoreLoggerState>((set, get) => ({
     console.log("clear log");
     set({ logs: [] });
   },
-  setMaxLogs: (n: number) => set({ maxLogs: n }),
 }));

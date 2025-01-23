@@ -15,7 +15,6 @@
   border-radius: 18px;
   border: 1px solid rgba(0, 0, 0, 0);
   user-select: none;
-  cursor: pointer;
 
   &:focus {
     border: 2px solid var(--Neutral-20);
@@ -50,6 +49,7 @@
   syntax: "length";
   inherit: false;
   initial-value: 0px;
+  inherits: false;
 }
 
 .disabled .mic-button,
