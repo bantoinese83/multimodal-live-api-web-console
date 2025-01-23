@@ -1,6 +1,5 @@
-
-import { useState, useEffect } from "react";
-import { UseMediaStreamResult } from "./use-media-stream-mux";
+import { useEffect, useState } from 'react';
+import { UseMediaStreamResult } from './use-media-stream-mux';
 
 export function useScreenCapture(): UseMediaStreamResult {
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -45,13 +44,11 @@ export function useScreenCapture(): UseMediaStreamResult {
     }
   };
 
-  const result: UseMediaStreamResult = {
+  return {
     type: "screen",
     start,
     stop,
     isStreaming,
     stream,
   };
-
-  return result;
 }

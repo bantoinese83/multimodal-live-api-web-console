@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { memo, ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import React, { memo, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
 import { UseMediaStreamResult } from "../../hooks/use-media-stream-mux";
 import { useScreenCapture } from "../../hooks/use-screen-capture";

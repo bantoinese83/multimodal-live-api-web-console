@@ -10,7 +10,7 @@ const LiveAPIContext = createContext<UseLiveAPIResults | undefined>(undefined);
 export type LiveAPIProviderProps = {
   children: ReactNode;
   url?: string;
-  apiKey: string;
+  apiKey?: string; // Made optional for fallback to default API_KEY
 };
 
 export const LiveAPIProvider: FC<LiveAPIProviderProps> = ({
