@@ -113,4 +113,13 @@ export class AudioRecorder extends EventEmitter {
     // Logic to send interview data to the server
     console.log("Sending interview data to the server", data);
   }
+
+  sendInitialPromptToServer(role: string, skillLevel: string) {
+    const initialPrompt = `Starting interview for role: ${role} with skill level: ${skillLevel}`;
+    console.log("Initial prompt sent to server:", initialPrompt);
+  }
+
+  sendFinalDataToServer(data: any) {
+    console.log("Final data sent to server:", data);
+  }
 }

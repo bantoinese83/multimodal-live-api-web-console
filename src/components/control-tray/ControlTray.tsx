@@ -72,7 +72,7 @@ function ControlTray({
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { client, connected, connect, disconnect, volume } =
+  const { client, connected, connect, disconnect, volume, sendInterviewData } =
     useLiveAPIContext();
 
   useEffect(() => {
@@ -158,16 +158,22 @@ function ControlTray({
 
   const startInterview = () => {
     // Logic to start the interview
+    const initialPrompt = `Starting interview for role: ${role} with skill level: ${skillLevel}`;
+    client.send([{ text: initialPrompt }]);
     console.log("Interview started");
   };
 
   const stopInterview = () => {
     // Logic to stop the interview
+    const finalData = { message: "Interview stopped" };
+    sendInterviewData(finalData);
     console.log("Interview stopped");
   };
 
   const calculateOverallScore = () => {
     // Logic to calculate the overall score
+    const score = Math.floor(Math.random() * 100); // Placeholder logic for score calculation
+    setOverallScore(score);
     console.log("Calculating overall score");
   };
 

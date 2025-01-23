@@ -33,6 +33,8 @@ export type UseLiveAPIResults = {
   disconnect: () => Promise<void>;
   volume: number;
   sendInterviewData: (data: any) => void;
+  sendInitialPrompt: (role: string, skillLevel: string) => void;
+  sendFinalData: (data: any) => void;
 };
 
 export function useLiveAPI({
@@ -110,6 +112,17 @@ export function useLiveAPI({
     console.log("Sending interview data to the server", data);
   };
 
+  const sendInitialPrompt = (role: string, skillLevel: string) => {
+    const initialPrompt = `Starting interview for role: ${role} with skill level: ${skillLevel}`;
+    client.send([{ text: initialPrompt }]);
+    console.log("Initial prompt sent");
+  };
+
+  const sendFinalData = (data: any) => {
+    client.send([{ text: JSON.stringify(data) }]);
+    console.log("Final data sent");
+  };
+
   return {
     client,
     config,
@@ -119,5 +132,7 @@ export function useLiveAPI({
     disconnect,
     volume,
     sendInterviewData,
+    sendInitialPrompt,
+    sendFinalData,
   };
 }
