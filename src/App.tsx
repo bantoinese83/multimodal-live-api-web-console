@@ -2,8 +2,9 @@ import { useRef, useState } from "react";
 import "./App.scss";
 import { LiveAPIProvider } from "./api/LiveAPI";
 import VideoControlTray from "./components/control-tray/VideoControlTray";
+import cn from "classnames";
 
-function MainApp() {
+const MainApp: React.FC = () => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
 

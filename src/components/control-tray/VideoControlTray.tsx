@@ -23,8 +23,8 @@ type MediaStreamButtonProps = {
   stop: () => any;
 };
 
-const MediaStreamButton = memo(
-  ({ isStreaming, onIcon, offIcon, start, stop }: MediaStreamButtonProps) =>
+const MediaStreamButton: React.FC<MediaStreamButtonProps> = memo(
+  ({ isStreaming, onIcon, offIcon, start, stop }) =>
     isStreaming ? (
       <button className="action-button" onClick={stop}>
         <span className="material-symbols-outlined">{onIcon}</span>
@@ -36,12 +36,12 @@ const MediaStreamButton = memo(
     ),
 );
 
-function VideoControlTray({
+const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   videoRef,
   children,
   onVideoStreamChange = () => {},
   supportsVideo,
-}: VideoControlTrayProps) {
+}) => {
   const videoStreams = [useWebcam(), useScreenCapture()];
   const [activeVideoStream, setActiveVideoStream] = useState<MediaStream | null>(null);
   const [webcam, screenCapture] = videoStreams;
