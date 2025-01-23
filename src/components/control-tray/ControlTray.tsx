@@ -1,21 +1,4 @@
-/**
- * Copyright 2024 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import cn from "classnames";
-
 import { memo, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
 import { UseMediaStreamResult } from "../../hooks/use-media-stream-mux";
@@ -40,9 +23,6 @@ type MediaStreamButtonProps = {
   stop: () => any;
 };
 
-/**
- * button used for triggering webcam or screen-capture
- */
 const MediaStreamButton = memo(
   ({ isStreaming, onIcon, offIcon, start, stop }: MediaStreamButtonProps) =>
     isStreaming ? (
@@ -71,6 +51,9 @@ function ControlTray({
   const [muted, setMuted] = useState(false);
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
+  const [role] = useState("Developer");
+  const [skillLevel] = useState("Intermediate");
+  const [, setOverallScore] = useState(0);
 
   const { client, connected, connect, disconnect, volume, sendInterviewData } =
     useLiveAPIContext();
@@ -142,7 +125,6 @@ function ControlTray({
     };
   }, [connected, activeVideoStream, client, videoRef]);
 
-  //handler for swapping from one video-stream to the next
   const changeStreams = (next?: UseMediaStreamResult) => async () => {
     if (next) {
       const mediaStream = await next.start();
@@ -157,22 +139,19 @@ function ControlTray({
   };
 
   const startInterview = () => {
-    // Logic to start the interview
     const initialPrompt = `Starting interview for role: ${role} with skill level: ${skillLevel}`;
     client.send([{ text: initialPrompt }]);
     console.log("Interview started");
   };
 
   const stopInterview = () => {
-    // Logic to stop the interview
     const finalData = { message: "Interview stopped" };
     sendInterviewData(finalData);
     console.log("Interview stopped");
   };
 
   const calculateOverallScore = () => {
-    // Logic to calculate the overall score
-    const score = Math.floor(Math.random() * 100); // Placeholder logic for score calculation
+    const score = Math.floor(Math.random() * 100);
     setOverallScore(score);
     console.log("Calculating overall score");
   };
