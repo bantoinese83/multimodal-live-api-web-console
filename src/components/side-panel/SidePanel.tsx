@@ -29,7 +29,7 @@ const filterOptions = [
   { value: "none", label: "All" },
 ];
 
-export default function SidePanel() {
+export default function SidePanel({ transcript }: { transcript: string[] }) {
   const { connected, client } = useLiveAPIContext();
   const [open, setOpen] = useState(true);
   const loggerRef = useRef<HTMLDivElement>(null);
@@ -186,6 +186,15 @@ export default function SidePanel() {
           <h3>Overall Score: {overallScore}</h3>
         </div>
       )}
+      {/* Display the live streaming transcript */}
+      <div className="transcript">
+        <h3>Live Transcript:</h3>
+        <ul>
+          {transcript.map((line, index) => (
+            <li key={index}>{line}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
