@@ -1,11 +1,8 @@
 import {useRef, useState, useEffect} from "react";
 import "./App.scss";
 import {LiveAPIProvider} from "./contexts/LiveAPIContext";
-import SidePanel from "./components/side-panel/SidePanel";
-import {Altair} from "./components/altair/Altair";
 import ControlTray from "./components/control-tray/ControlTray";
 import cn from "classnames";
-import { useLoggerStore } from "./lib/store-logger";
 
 const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || "AIzaSyDmxvr6uXs_WyDnwqNiJ4QynI67vJUuj10";
 
@@ -24,24 +21,13 @@ function App() {
     const [role, setRole] = useState("");
     const [skillLevel, setSkillLevel] = useState("");
 
-    // State for transcript
-    const [transcript, setTranscript] = useState<string[]>([]);
-    const { logs } = useLoggerStore();
-
-    useEffect(() => {
-        const newLogs = logs.map(log => log.message as string);
-        setTranscript(newLogs);
-    }, [logs]);
-
     return (
         <div className="App">
             <LiveAPIProvider url={uri} apiKey={API_KEY}>
                 <div className="streaming-console">
-                    <SidePanel transcript={transcript}/>
                     <main>
                         <div className="main-app-area">
                             {/* APP goes here */}
-                            <Altair/>
                             <video
                                 className={cn("stream", {
                                     hidden: !videoRef.current || !videoStream,
