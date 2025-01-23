@@ -8,7 +8,7 @@ import { AudioRecorder } from "../../lib/audio-recorder";
 import AudioPulse from "../audio-pulse/AudioPulse";
 import "./control-tray.scss";
 
-export type ControlTrayProps = {
+export type VideoControlTrayProps = {
   videoRef: RefObject<HTMLVideoElement>;
   children?: ReactNode;
   supportsVideo: boolean;
@@ -36,12 +36,12 @@ const MediaStreamButton = memo(
     ),
 );
 
-function ControlTray({
+function VideoControlTray({
   videoRef,
   children,
   onVideoStreamChange = () => {},
   supportsVideo,
-}: ControlTrayProps) {
+}: VideoControlTrayProps) {
   const videoStreams = [useWebcam(), useScreenCapture()];
   const [activeVideoStream, setActiveVideoStream] = useState<MediaStream | null>(null);
   const [webcam, screenCapture] = videoStreams;
@@ -132,7 +132,7 @@ function ControlTray({
     };
   }, [connected, activeVideoStream, client, videoRef]);
 
-  const changeStreams = (next?: UseMediaStreamResult) => async () => {
+  const handleStreamChange = (next?: UseMediaStreamResult) => async () => {
     try {
       if (next) {
         const mediaStream = await next.start();
@@ -172,15 +172,15 @@ function ControlTray({
           <>
             <MediaStreamButton
               isStreaming={screenCapture.isStreaming}
-              start={changeStreams(screenCapture)}
-              stop={changeStreams()}
+              start={handleStreamChange(screenCapture)}
+              stop={handleStreamChange()}
               onIcon="cancel_presentation"
               offIcon="present_to_all"
             />
             <MediaStreamButton
               isStreaming={webcam.isStreaming}
-              start={changeStreams(webcam)}
-              stop={changeStreams()}
+              start={handleStreamChange(webcam)}
+              stop={handleStreamChange()}
               onIcon="videocam_off"
               offIcon="videocam"
             />
@@ -207,4 +207,4 @@ function ControlTray({
   );
 }
 
-export default memo(ControlTray);
+export default memo(VideoControlTray);

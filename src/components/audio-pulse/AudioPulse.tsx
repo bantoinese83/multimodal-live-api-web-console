@@ -1,4 +1,3 @@
-
 import "./audio-pulse.scss";
 import React from "react";
 import { useEffect, useRef } from "react";
@@ -34,7 +33,7 @@ export default function AudioPulse({ active, volume, hover }: AudioPulseProps) {
   }, [volume]);
 
   return (
-    <div className={c("audioPulse", { active, hover })}>
+    <div className={c("audio-pulse-container", { active, hover })}>
       {Array(lineCount)
         .fill(null)
         .map((_, i) => (
