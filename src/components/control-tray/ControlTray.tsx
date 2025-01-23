@@ -43,26 +43,22 @@ function ControlTray({
   supportsVideo,
 }: ControlTrayProps) {
   const videoStreams = [useWebcam(), useScreenCapture()];
-  const [activeVideoStream, setActiveVideoStream] =
-    useState<MediaStream | null>(null);
+  const [activeVideoStream, setActiveVideoStream] = useState<MediaStream | null>(null);
   const [webcam, screenCapture] = videoStreams;
   const [inVolume, setInVolume] = useState(0);
   const [audioRecorder] = useState(() => new AudioRecorder());
   const [muted, setMuted] = useState(false);
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
-  const [role] = useState("Developer");
-  const [skillLevel] = useState("Intermediate");
-  const [, setOverallScore] = useState(0);
 
-  const { client, connected, connect, disconnect, volume, sendInterviewData } =
-    useLiveAPIContext();
+  const { client, connected, connect, disconnect, volume } = useLiveAPIContext();
 
   useEffect(() => {
     if (!connected && connectButtonRef.current) {
       connectButtonRef.current.focus();
     }
   }, [connected]);
+
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--volume",
@@ -79,11 +75,13 @@ function ControlTray({
         },
       ]);
     };
+
     if (connected && !muted && audioRecorder) {
-      audioRecorder.on("data", onData).on("volume", setInVolume).start();
+      audioRecorder.on("data", onData).on("volume", setInVolume).start().catch(console.error);
     } else {
       audioRecorder.stop();
     }
+
     return () => {
       audioRecorder.off("data", onData).off("volume", setInVolume);
     };
@@ -94,9 +92,9 @@ function ControlTray({
       videoRef.current.srcObject = activeVideoStream;
     }
 
-    let timeoutId = -1;
+    let timeoutId: number | null = null;
 
-    function sendVideoFrame() {
+    const sendVideoFrame = () => {
       const video = videoRef.current;
       const canvas = renderCanvasRef.current;
 
@@ -104,56 +102,51 @@ function ControlTray({
         return;
       }
 
-      const ctx = canvas.getContext("2d")!;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        return;
+      }
+
       canvas.width = video.videoWidth * 0.25;
       canvas.height = video.videoHeight * 0.25;
       if (canvas.width + canvas.height > 0) {
-        ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const base64 = canvas.toDataURL("image/jpeg", 1.0);
-        const data = base64.slice(base64.indexOf(",") + 1, Infinity);
+        const data = base64.slice(base64.indexOf(",") + 1);
         client.sendRealtimeInput([{ mimeType: "image/jpeg", data }]);
       }
+
       if (connected) {
         timeoutId = window.setTimeout(sendVideoFrame, 1000 / 0.5);
       }
-    }
+    };
+
     if (connected && activeVideoStream !== null) {
       requestAnimationFrame(sendVideoFrame);
     }
+
     return () => {
-      clearTimeout(timeoutId);
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
     };
   }, [connected, activeVideoStream, client, videoRef]);
 
   const changeStreams = (next?: UseMediaStreamResult) => async () => {
-    if (next) {
-      const mediaStream = await next.start();
-      setActiveVideoStream(mediaStream);
-      onVideoStreamChange(mediaStream);
-    } else {
-      setActiveVideoStream(null);
-      onVideoStreamChange(null);
+    try {
+      if (next) {
+        const mediaStream = await next.start();
+        setActiveVideoStream(mediaStream);
+        onVideoStreamChange(mediaStream);
+      } else {
+        setActiveVideoStream(null);
+        onVideoStreamChange(null);
+      }
+
+      videoStreams.filter((msr) => msr !== next).forEach((msr) => msr.stop());
+    } catch (error) {
+      console.error("Error changing streams:", error);
     }
-
-    videoStreams.filter((msr) => msr !== next).forEach((msr) => msr.stop());
-  };
-
-  const startInterview = () => {
-    const initialPrompt = `Starting interview for role: ${role} with skill level: ${skillLevel}`;
-    client.send([{ text: initialPrompt }]);
-    console.log("Interview started");
-  };
-
-  const stopInterview = () => {
-    const finalData = { message: "Interview stopped" };
-    sendInterviewData(finalData);
-    console.log("Interview stopped");
-  };
-
-  const calculateOverallScore = () => {
-    const score = Math.floor(Math.random() * 100);
-    setOverallScore(score);
-    console.log("Calculating overall score");
   };
 
   return (
@@ -209,18 +202,6 @@ function ControlTray({
           </button>
         </div>
         <span className="text-indicator">Streaming</span>
-      </div>
-
-      <div className="interview-controls">
-        <button className="action-button" onClick={startInterview}>
-          Start Interview
-        </button>
-        <button className="action-button" onClick={stopInterview}>
-          Stop Interview
-        </button>
-        <button className="action-button" onClick={calculateOverallScore}>
-          Calculate Score
-        </button>
       </div>
     </section>
   );
