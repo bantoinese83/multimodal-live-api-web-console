@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./App.scss";
-import { LiveAPIProvider } from "./api/LiveAPI";
+import { LiveAPIProvider } from "./contexts/LiveAPIContext";
 import VideoControlTray from "./components/control-tray/VideoControlTray";
 import cn from "classnames";
 
