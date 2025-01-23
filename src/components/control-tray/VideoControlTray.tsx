@@ -187,22 +187,21 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
           </>
         )}
         {children}
-      </nav>
-
-      <div className={cn("connection-container", { connected })}>
-        <div className="connection-button-container">
-          <button
-            ref={connectButtonRef}
-            className={cn("action-button connect-toggle", { connected })}
-            onClick={connected ? disconnect : connect}
-          >
-            <span className="material-symbols-outlined filled">
-              {connected ? "pause" : "play_arrow"}
-            </span>
-          </button>
+        <div className={cn("connection-container", { connected })}>
+          <div className="connection-button-container">
+            <button
+              ref={connectButtonRef}
+              className={cn("action-button connect-toggle", { connected })}
+              onClick={connected ? disconnect : connect}
+            >
+              <span className="material-symbols-outlined filled">
+                {connected ? "pause" : "play_arrow"}
+              </span>
+            </button>
+          </div>
+          <span className="text-indicator">Streaming</span>
         </div>
-        <span className="text-indicator">Streaming</span>
-      </div>
+      </nav>
     </section>
   );
 }

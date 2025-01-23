@@ -9,9 +9,10 @@ export type AudioPulseProps = {
   active: boolean;
   volume: number;
   hover?: boolean;
+  className?: string; // P7743
 };
 
-export default function AudioPulse({ active, volume, hover }: AudioPulseProps) {
+export default function AudioPulse({ active, volume, hover, className }: AudioPulseProps) { // P7743
   const lines = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function AudioPulse({ active, volume, hover }: AudioPulseProps) {
   }, [volume]);
 
   return (
-    <div className={c("audio-pulse-container", { active, hover })}>
+    <div className={c("audio-pulse-container", { active, hover }, className)}> // P0975
       {Array(lineCount)
         .fill(null)
         .map((_, i) => (
