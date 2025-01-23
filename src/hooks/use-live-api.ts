@@ -32,6 +32,7 @@ export type UseLiveAPIResults = {
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   volume: number;
+  sendInterviewData: (data: any) => void;
 };
 
 export function useLiveAPI({
@@ -104,6 +105,11 @@ export function useLiveAPI({
     setConnected(false);
   }, [setConnected, client]);
 
+  const sendInterviewData = (data: any) => {
+    // Logic to send interview data to the server
+    console.log("Sending interview data to the server", data);
+  };
+
   return {
     client,
     config,
@@ -112,5 +118,6 @@ export function useLiveAPI({
     connect,
     disconnect,
     volume,
+    sendInterviewData,
   };
 }

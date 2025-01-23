@@ -156,6 +156,21 @@ function ControlTray({
     videoStreams.filter((msr) => msr !== next).forEach((msr) => msr.stop());
   };
 
+  const startInterview = () => {
+    // Logic to start the interview
+    console.log("Interview started");
+  };
+
+  const stopInterview = () => {
+    // Logic to stop the interview
+    console.log("Interview stopped");
+  };
+
+  const calculateOverallScore = () => {
+    // Logic to calculate the overall score
+    console.log("Calculating overall score");
+  };
+
   return (
     <section className="control-tray">
       <canvas style={{ display: "none" }} ref={renderCanvasRef} />
@@ -209,6 +224,18 @@ function ControlTray({
           </button>
         </div>
         <span className="text-indicator">Streaming</span>
+      </div>
+
+      <div className="interview-controls">
+        <button className="action-button" onClick={startInterview}>
+          Start Interview
+        </button>
+        <button className="action-button" onClick={stopInterview}>
+          Stop Interview
+        </button>
+        <button className="action-button" onClick={calculateOverallScore}>
+          Calculate Score
+        </button>
       </div>
     </section>
   );
