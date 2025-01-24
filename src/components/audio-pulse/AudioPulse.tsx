@@ -1,4 +1,3 @@
-import "./audio-pulse.scss";
 import React from "react";
 import { useEffect, useRef } from "react";
 import c from "classnames";
@@ -9,10 +8,10 @@ export type AudioPulseProps = {
   active: boolean;
   volume: number;
   hover?: boolean;
-  className?: string; // P7743
+  className?: string;
 };
 
-export default function AudioPulse({ active, volume, hover, className }: AudioPulseProps) { // P7743
+export default function AudioPulse({ active, volume, hover, className }: AudioPulseProps) {
   const lines = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function AudioPulse({ active, volume, hover, className }: AudioPu
   }, [volume]);
 
   return (
-    <div className={c("audio-pulse-container", { active, hover }, className)}> // P0975
+    <div className={c("audio-pulse-container", { active, hover }, className)}>
       {Array(lineCount)
         .fill(null)
         .map((_, i) => (

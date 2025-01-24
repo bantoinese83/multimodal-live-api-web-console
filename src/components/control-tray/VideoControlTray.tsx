@@ -1,11 +1,12 @@
 import cn from "classnames";
 import React, { memo, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
-import { UseMediaStreamResult } from "../../hooks/use-media-stream-mux";
-import { useScreenCapture } from "../../hooks/use-screen-capture";
-import { useWebcam } from "../../hooks/use-webcam";
-import { AudioRecorder } from "../../lib/audio-recorder";
+import { useHandleStreamChange } from "../../hooks/use-handle-stream-change";
+import MediaStreamButton from "./MediaStreamButton";
 import AudioPulse from "../audio-pulse/AudioPulse";
+import { AudioRecorder } from "../../lib/audio-recorder";
+import { useWebcam } from '../../hooks/use-webcam';
+import { useScreenCapture } from '../../hooks/use-screen-capture';
 
 export type VideoControlTrayProps = {
   videoRef: RefObject<HTMLVideoElement>;
@@ -13,27 +14,6 @@ export type VideoControlTrayProps = {
   supportsVideo: boolean;
   onVideoStreamChange?: (stream: MediaStream | null) => void;
 };
-
-type MediaStreamButtonProps = {
-  isStreaming: boolean;
-  onIcon: string;
-  offIcon: string;
-  start: () => Promise<any>;
-  stop: () => any;
-};
-
-const MediaStreamButton: React.FC<MediaStreamButtonProps> = memo(
-  ({ isStreaming, onIcon, offIcon, start, stop }) =>
-    isStreaming ? (
-      <button className="control-button-streaming" onClick={stop}>
-        <span className="material-symbols-outlined">{onIcon}</span>
-      </button>
-    ) : (
-      <button className="control-button-streaming" onClick={start}>
-        <span className="material-symbols-outlined">{offIcon}</span>
-      </button>
-    ),
-);
 
 const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   videoRef,
@@ -51,6 +31,7 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   const connectButtonRef = useRef<HTMLButtonElement>(null);
 
   const { client, connected, connect, disconnect, volume } = useLiveAPIContext();
+  const handleStreamChange = useHandleStreamChange(videoStreams, setActiveVideoStream, onVideoStreamChange);
 
   useEffect(() => {
     if (!connected && connectButtonRef.current) {
@@ -130,23 +111,6 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
       }
     };
   }, [connected, activeVideoStream, client, videoRef]);
-
-  const handleStreamChange = (next?: UseMediaStreamResult) => async () => {
-    try {
-      if (next) {
-        const mediaStream = await next.start();
-        setActiveVideoStream(mediaStream);
-        onVideoStreamChange(mediaStream);
-      } else {
-        setActiveVideoStream(null);
-        onVideoStreamChange(null);
-      }
-
-      videoStreams.filter((msr) => msr !== next).forEach((msr) => msr.stop());
-    } catch (error) {
-      console.error("Error changing streams:", error);
-    }
-  };
 
   return (
     <section className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex justify-center items-start gap-2 pb-4">
