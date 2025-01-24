@@ -9,6 +9,8 @@ import MicButton from './MicButton';
 import ConnectButton from './ConnectButton';
 import ScreenCaptureButton from './ScreenCaptureButton';
 import WebcamButton from './WebcamButton';
+import { Radio } from 'lucide-react'; // Import the Radio icon
+import '../../animatedButtons.css'; // Import the animated buttons CSS
 
 export type VideoControlTrayProps = {
   videoRef: RefObject<HTMLVideoElement>;
@@ -118,18 +120,20 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
     <section>
       <canvas style={{ display: "none" }} ref={renderCanvasRef} />
       <nav className="toolbar">
-        <MicButton muted={muted} setMuted={setMuted} />
+        <MicButton className="custom-btn btn-5" muted={muted} setMuted={setMuted} />
 
         <AudioPulse volume={volume} active={connected} hover={false} />
 
         {supportsVideo && (
           <>
             <ScreenCaptureButton
+              className="custom-btn btn-6"
               isStreaming={screenCapture.isStreaming}
               start={handleStreamChange(screenCapture)}
               stop={handleStreamChange()}
             />
             <WebcamButton
+              className="custom-btn btn-14"
               isStreaming={webcam.isStreaming}
               start={handleStreamChange(webcam)}
               stop={handleStreamChange()}
@@ -137,8 +141,14 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
           </>
         )}
         {children}
-        <ConnectButton ref={connectButtonRef} connected={connected} connect={connect} disconnect={disconnect} />
-        <span className="streaming-status">Streaming</span>
+        <ConnectButton
+          className="custom-btn btn-15"
+          ref={connectButtonRef}
+          connected={connected}
+          connect={connect}
+          disconnect={disconnect}
+        />
+        {connected && <Radio className="streaming-status" />}
       </nav>
     </section>
   );

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { LiveAPIProvider } from "./contexts/LiveAPIContext";
 import VideoControlTray from './components/control-tray/VideoControlTray';
-import VideoPlayer from './components/VideoPlayer';
+import VideoPlayer from './components/video-player/VideoPlayer';
 
 const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || "";
 

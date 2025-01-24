@@ -4,7 +4,7 @@ type VideoPlayerProps = {
   videoRef: React.RefObject<HTMLVideoElement>;
 };
 
-const VideoPlayer: React.FC<VideoPlayerProps> = forwardRef(({ videoRef }, ref) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = forwardRef(({ videoRef }) => {
   return (
     <div>
       <video
