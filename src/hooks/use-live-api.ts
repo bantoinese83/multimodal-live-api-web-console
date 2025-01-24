@@ -13,7 +13,7 @@ export type UseLiveAPIResults = {
   setConfig: (config: LiveConfig) => void;
   config: LiveConfig;
   connected: boolean;
-  connect: () => Promise<void>;
+  connect: (role: string, skillLevel: string) => Promise<void>;
   disconnect: () => Promise<void>;
   volume: number;
   sendInterviewData: (data: any) => void;
@@ -79,7 +79,7 @@ export function useLiveAPI({
     };
   }, [client]);
 
-  const connect = useCallback(async () => {
+  const connect = useCallback(async (role: string, skillLevel: string) => {
     try {
       if (!config) {
         throw new Error("Config has not been set");
@@ -87,6 +87,7 @@ export function useLiveAPI({
       client.disconnect();
       await client.connect(config);
       setConnected(true);
+      sendInitialPrompt(role, skillLevel);
     } catch (error) {
       console.error("Error connecting to client:", error);
     }
