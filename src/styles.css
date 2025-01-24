@@ -45,6 +45,14 @@
     color: #5bc0de;
 }
 
+.control-button-screen.streaming {
+    color: #5bc0de;
+}
+
+.control-button-webcam.streaming {
+    color: #5bc0de;
+}
+
 .audio-pulse {
     display: flex;
     align-items: center;
