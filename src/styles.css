@@ -1,0 +1,122 @@
+/* src/styles.css */
+
+.main-app > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 0 5px;
+    padding: 10px;
+    border-radius: 50%;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+}
+
+.control-button:hover {
+    color: #5bc0de;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.control-button-mic.muted {
+    color: #ff0000;
+}
+
+.control-button-connect.disconnected {
+    color: #5bc0de;
+}
+
+.audio-pulse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+}
+
+.audio-pulse div {
+    width: 5px;
+    height: 10px;
+    background-color: #5bc0de;
+    margin: 0 2px;
+    border-radius: 2px;
+    transition: height 0.1s ease, background-color 0.3s ease;
+}
+
+.audio-pulse div:hover {
+    background-color: #fff;
+}
+
+/* src/components/control-tray/MediaStreamButton.css */
+
+.media-stream-button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 0 5px;
+    padding: 10px;
+    border-radius: 50%;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+}
+
+.media-stream-button:hover {
+    color: #5bc0de;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.streaming-status {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #5bc0de;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.streaming-status:hover {
+    color: #fff;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .control-button {
+        font-size: 1.2rem;
+        padding: 8px;
+    }
+
+    .media-stream-button {
+        font-size: 1.2rem;
+        padding: 8px;
+    }
+
+    .streaming-status {
+        font-size: 1rem;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}

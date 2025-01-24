@@ -1,4 +1,3 @@
-import cn from "classnames";
 import React, { memo, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
 import { useHandleStreamChange } from "../../hooks/use-handle-stream-change";
@@ -7,6 +6,7 @@ import AudioPulse from "../audio-pulse/AudioPulse";
 import { AudioRecorder } from "../../lib/audio-recorder";
 import { useWebcam } from '../../hooks/use-webcam';
 import { useScreenCapture } from '../../hooks/use-screen-capture';
+import { Mic, MicOff, Pause, Play, Video, VideoOff, Presentation } from 'lucide-react';
 
 export type VideoControlTrayProps = {
   videoRef: RefObject<HTMLVideoElement>;
@@ -113,23 +113,18 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   }, [connected, activeVideoStream, client, videoRef]);
 
   return (
-    <section className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex justify-center items-start gap-2 pb-4">
+    <section>
       <canvas style={{ display: "none" }} ref={renderCanvasRef} />
-      <nav className={cn("bg-neutral-900 border border-neutral-700 rounded-lg flex gap-3 items-center overflow-hidden p-2 transition-all duration-500", { "opacity-50": !connected })}>
-        <button
-          className={cn("control-button-mic", { "bg-red-500": !muted, "bg-gray-500": muted })}
-          onClick={() => setMuted(!muted)}
-        >
+      <nav className="toolbar">
+        <button className={`control-button control-button-mic ${muted ? 'muted' : ''}`} onClick={() => setMuted(!muted)}>
           {!muted ? (
-            <span className="material-symbols-outlined filled">mic</span>
+            <Mic />
           ) : (
-            <span className="material-symbols-outlined filled">mic_off</span>
+            <MicOff />
           )}
         </button>
 
-        <div className="control-button-audio-pulse">
-          <AudioPulse volume={volume} active={connected} hover={false} />
-        </div>
+        <AudioPulse volume={volume} active={connected} hover={false} />
 
         {supportsVideo && (
           <>
@@ -137,33 +132,25 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
               isStreaming={screenCapture.isStreaming}
               start={handleStreamChange(screenCapture)}
               stop={handleStreamChange()}
-              onIcon="cancel_presentation"
-              offIcon="present_to_all"
+              onIcon={<Presentation />}
+              offIcon={<Presentation />}
             />
             <MediaStreamButton
               isStreaming={webcam.isStreaming}
               start={handleStreamChange(webcam)}
               stop={handleStreamChange()}
-              onIcon="videocam_off"
-              offIcon="videocam"
+              onIcon={<VideoOff />}
+              offIcon={<Video />}
             />
           </>
         )}
         {children}
-        <div className={cn("flex flex-col justify-center items-center gap-1", { "opacity-100": connected, "opacity-50": !connected })}>
-          <div className="control-button-connection">
-            <button
-              ref={connectButtonRef}
-              className={cn("control-button-connect", { "bg-green-500": connected, "bg-gray-500": !connected })}
-              onClick={connected ? disconnect : connect}
-            >
-              <span className="material-symbols-outlined filled">
-                {connected ? "pause" : "play_arrow"}
-              </span>
-            </button>
-          </div>
-          <span className="text-xs text-blue-500 select-none">Streaming</span>
-        </div>
+        <button className={`control-button control-button-connect ${connected ? '' : 'disconnected'}`} ref={connectButtonRef} onClick={connected ? disconnect : connect}>
+          <span>
+            {connected ? <Pause /> : <Play />}
+          </span>
+        </button>
+    <span className="streaming-status">Streaming</span>
       </nav>
     </section>
   );

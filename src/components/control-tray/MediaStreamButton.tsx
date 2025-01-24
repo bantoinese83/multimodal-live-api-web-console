@@ -1,9 +1,10 @@
-import React, { memo } from "react";
+// src/components/control-tray/MediaStreamButton.tsx
+import React, { memo, ReactNode } from "react";
 
 type MediaStreamButtonProps = {
   isStreaming: boolean;
-  onIcon: string;
-  offIcon: string;
+  onIcon: ReactNode;
+  offIcon: ReactNode;
   start: () => Promise<any>;
   stop: () => any;
 };
@@ -11,12 +12,12 @@ type MediaStreamButtonProps = {
 const MediaStreamButton: React.FC<MediaStreamButtonProps> = memo(
   ({ isStreaming, onIcon, offIcon, start, stop }) =>
     isStreaming ? (
-      <button className="control-button-streaming" onClick={stop}>
-        <span className="material-symbols-outlined">{onIcon}</span>
+      <button className="media-stream-button" onClick={stop}>
+        {onIcon}
       </button>
     ) : (
-      <button className="control-button-streaming" onClick={start}>
-        <span className="material-symbols-outlined">{offIcon}</span>
+      <button className="media-stream-button" onClick={start}>
+        {offIcon}
       </button>
     ),
 );

@@ -1,6 +1,5 @@
-import React from "react";
-import { useEffect, useRef } from "react";
-import c from "classnames";
+// src/components/audio-pulse/AudioPulse.tsx
+import React, { useEffect, useRef } from "react";
 
 const lineCount = 3;
 
@@ -33,14 +32,13 @@ export default function AudioPulse({ active, volume, hover, className }: AudioPu
   }, [volume]);
 
   return (
-    <div className={c("audio-pulse-container", { active, hover }, className)}>
+    <div className={`audio-pulse ${className}`}>
       {Array(lineCount)
         .fill(null)
         .map((_, i) => (
           <div
             key={i}
             ref={(el) => (lines.current[i] = el!)}
-            style={{ animationDelay: `${i * 133}ms` }}
           />
         ))}
     </div>
