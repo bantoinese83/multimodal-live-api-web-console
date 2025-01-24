@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Pause, Play } from 'lucide-react';
+import { useLiveAPIContext } from '../../contexts/LiveAPIContext';
 
 type ConnectButtonProps = {
   connected: boolean;
@@ -12,6 +13,8 @@ type ConnectButtonProps = {
 
 const ConnectButton = forwardRef<HTMLButtonElement, ConnectButtonProps>(
   ({ connected, connect, disconnect, className = '', role, skillLevel }, ref) => {
+    const { sendInitialPrompt } = useLiveAPIContext();
+
     const handleConnect = async () => {
       await connect();
       // Call sendInitialPrompt with role and skillLevel
