@@ -1,7 +1,6 @@
 import React, { memo, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
 import { useHandleStreamChange } from "../../hooks/use-handle-stream-change";
-import MediaStreamButton from "./MediaStreamButton";
 import AudioPulse from "../audio-pulse/AudioPulse";
 import { AudioRecorder } from "../../lib/audio-recorder";
 import { useWebcam } from '../../hooks/use-webcam';
@@ -31,6 +30,7 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   const [audioRecorder] = useState(() => new AudioRecorder());
   const [muted, setMuted] = useState(false);
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
+  const connectButtonRef = useRef<HTMLButtonElement>(null);
 
   const { client, connected, connect, disconnect, volume } = useLiveAPIContext();
   const handleStreamChange = useHandleStreamChange(videoStreams, setActiveVideoStream, onVideoStreamChange);
@@ -137,7 +137,7 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
           </>
         )}
         {children}
-        <ConnectButton connected={connected} connect={connect} disconnect={disconnect} />
+        <ConnectButton ref={connectButtonRef} connected={connected} connect={connect} disconnect={disconnect} />
         <span className="streaming-status">Streaming</span>
       </nav>
     </section>

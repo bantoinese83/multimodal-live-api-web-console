@@ -1,6 +1,5 @@
-
-import { useState, useEffect } from "react";
-import { UseMediaStreamResult } from "./use-media-stream-mux";
+import { useEffect, useState } from 'react';
+import { UseMediaStreamResult } from './use-media-stream-mux';
 
 export function useWebcam(): UseMediaStreamResult {
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -11,27 +10,28 @@ export function useWebcam(): UseMediaStreamResult {
       setIsStreaming(false);
       setStream(null);
     };
+
     if (stream) {
-      stream
-        .getTracks()
-        .forEach((track) => track.addEventListener("ended", handleStreamEnded));
+      stream.getTracks().forEach((track) => track.addEventListener("ended", handleStreamEnded));
       return () => {
-        stream
-          .getTracks()
-          .forEach((track) =>
-            track.removeEventListener("ended", handleStreamEnded),
-          );
+        stream.getTracks().forEach((track) => track.removeEventListener("ended", handleStreamEnded));
       };
     }
   }, [stream]);
 
   const start = async () => {
-    const mediaStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-    });
-    setStream(mediaStream);
-    setIsStreaming(true);
-    return mediaStream;
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+      setStream(mediaStream);
+      setIsStreaming(true);
+      return mediaStream;
+    } catch (error) {
+      console.error("Error starting webcam:", error);
+      setIsStreaming(false);
+      throw error;
+    }
   };
 
   const stop = () => {
@@ -42,13 +42,11 @@ export function useWebcam(): UseMediaStreamResult {
     }
   };
 
-  const result: UseMediaStreamResult = {
+  return {
     type: "webcam",
     start,
     stop,
     isStreaming,
     stream,
   };
-
-  return result;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Pause, Play } from 'lucide-react';
 
 type ConnectButtonProps = {
@@ -7,15 +7,18 @@ type ConnectButtonProps = {
   disconnect: () => void;
 };
 
-const ConnectButton: React.FC<ConnectButtonProps> = ({ connected, connect, disconnect }) => {
-  return (
-    <button
-      className={`control-button control-button-connect ${connected ? '' : 'disconnected'}`}
-      onClick={connected ? disconnect : connect}
-    >
-      {connected ? <Pause /> : <Play />}
-    </button>
-  );
-};
+const ConnectButton = forwardRef<HTMLButtonElement, ConnectButtonProps>(
+  ({ connected, connect, disconnect }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={`control-button control-button-connect ${connected ? '' : 'disconnected'}`}
+        onClick={connected ? disconnect : connect}
+      >
+        {connected ? <Pause /> : <Play />}
+      </button>
+    );
+  }
+);
 
 export default ConnectButton;

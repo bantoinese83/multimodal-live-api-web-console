@@ -7,6 +7,9 @@ export const useHandleStreamChange = (
 ) => {
   return (next?: UseMediaStreamResult) => async () => {
     try {
+      // Stop all current streams first
+      videoStreams.forEach((msr) => msr.stop());
+
       if (next) {
         const mediaStream = await next.start();
         setActiveVideoStream(mediaStream);
@@ -15,10 +18,10 @@ export const useHandleStreamChange = (
         setActiveVideoStream(null);
         onVideoStreamChange(null);
       }
-
-      videoStreams.filter((msr) => msr !== next).forEach((msr) => msr.stop());
     } catch (error) {
       console.error("Error changing streams:", error);
+      setActiveVideoStream(null);
+      onVideoStreamChange(null);
     }
   };
 };

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles.css';
+import './toolbar.css';
+import './main.css';
+
 import MainApp from './MainApp';
 import reportWebVitals from './reportWebVitals';
 

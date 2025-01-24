@@ -10,30 +10,28 @@ export function useScreenCapture(): UseMediaStreamResult {
       setIsStreaming(false);
       setStream(null);
     };
+
     if (stream) {
-      stream
-        .getTracks()
-        .forEach((track) => track.addEventListener("ended", handleStreamEnded));
+      stream.getTracks().forEach((track) => track.addEventListener("ended", handleStreamEnded));
       return () => {
-        stream
-          .getTracks()
-          .forEach((track) =>
-            track.removeEventListener("ended", handleStreamEnded),
-          );
+        stream.getTracks().forEach((track) => track.removeEventListener("ended", handleStreamEnded));
       };
     }
   }, [stream]);
 
   const start = async () => {
-    // const controller = new CaptureController();
-    // controller.setFocusBehavior("no-focus-change");
-    const mediaStream = await navigator.mediaDevices.getDisplayMedia({
-      video: true,
-      // controller
-    });
-    setStream(mediaStream);
-    setIsStreaming(true);
-    return mediaStream;
+    try {
+      const mediaStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+      });
+      setStream(mediaStream);
+      setIsStreaming(true);
+      return mediaStream;
+    } catch (error) {
+      console.error("Error starting screen capture:", error);
+      setIsStreaming(false);
+      throw error;
+    }
   };
 
   const stop = () => {

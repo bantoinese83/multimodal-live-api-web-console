@@ -37,21 +37,24 @@ export function useLiveAPI({
   });
   const [volume, setVolume] = useState(0);
 
-  // register audio for streaming server -> speakers
+  // Register audio for streaming server -> speakers
   useEffect(() => {
-    if (!audioStreamerRef.current) {
-      audioContext({ id: "audio-out" }).then((audioCtx: AudioContext) => {
+    const initializeAudioStreamer = async () => {
+      try {
+        const audioCtx = await audioContext({ id: "audio-out" });
         audioStreamerRef.current = new AudioStreamer(audioCtx);
-        audioStreamerRef.current
-          .addWorklet<any>("vumeter-out", VolMeterWorket, (ev: any) => {
-            setVolume(ev.data.volume);
-          })
-          .then(() => {
-            // Successfully added worklet
-          });
-      });
+        await audioStreamerRef.current.addWorklet<any>("vumeter-out", VolMeterWorket, (ev: any) => {
+          setVolume(ev.data.volume);
+        });
+      } catch (error) {
+        console.error("Error initializing audio streamer:", error);
+      }
+    };
+
+    if (!audioStreamerRef.current) {
+      initializeAudioStreamer();
     }
-  }, [audioStreamerRef]);
+  }, []);
 
   useEffect(() => {
     const onClose = () => {
@@ -77,34 +80,53 @@ export function useLiveAPI({
   }, [client]);
 
   const connect = useCallback(async () => {
-    console.log(config);
-    if (!config) {
-      throw new Error("config has not been set");
+    try {
+      if (!config) {
+        throw new Error("Config has not been set");
+      }
+      client.disconnect();
+      await client.connect(config);
+      setConnected(true);
+    } catch (error) {
+      console.error("Error connecting to client:", error);
     }
-    client.disconnect();
-    await client.connect(config);
-    setConnected(true);
-  }, [client, setConnected, config]);
+  }, [client, config]);
 
   const disconnect = useCallback(async () => {
-    client.disconnect();
-    setConnected(false);
-  }, [setConnected, client]);
+    try {
+      client.disconnect();
+      setConnected(false);
+    } catch (error) {
+      console.error("Error disconnecting from client:", error);
+    }
+  }, [client]);
 
   const sendInterviewData = (data: any) => {
-    // Logic to send interview data to the server
-    console.log("Sending interview data to the server", data);
+    try {
+      console.log("Sending interview data to the server", data);
+      // Add logic to send interview data to the server
+    } catch (error) {
+      console.error("Error sending interview data:", error);
+    }
   };
 
   const sendInitialPrompt = (role: string, skillLevel: string) => {
-    const initialPrompt = `Starting interview for role: ${role} with skill level: ${skillLevel}`;
-    client.send([{ text: initialPrompt }]);
-    console.log("Initial prompt sent");
+    try {
+      const initialPrompt = `Starting interview for role: ${role} with skill level: ${skillLevel}`;
+      client.send([{ text: initialPrompt }]);
+      console.log("Initial prompt sent");
+    } catch (error) {
+      console.error("Error sending initial prompt:", error);
+    }
   };
 
   const sendFinalData = (data: any) => {
-    client.send([{ text: JSON.stringify(data) }]);
-    console.log("Final data sent");
+    try {
+      client.send([{ text: JSON.stringify(data) }]);
+      console.log("Final data sent");
+    } catch (error) {
+      console.error("Error sending final data:", error);
+    }
   };
 
   return {
