@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaUser, FaBriefcase, FaStar } from 'react-icons/fa';
 
 type OnboardingFormProps = {
   onSubmit: (role: string, skillLevel: string, name: string) => void;
@@ -17,7 +18,9 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onSubmit }) => {
   return (
     <form className="onboarding-form" onSubmit={handleSubmit}>
       <div className="form-group">
-        <label htmlFor="name">Name:</label>
+        <label htmlFor="name">
+          <FaUser /> Name:
+        </label>
         <input
           type="text"
           id="name"
@@ -27,7 +30,9 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onSubmit }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="role">Role:</label>
+        <label htmlFor="role">
+          <FaBriefcase /> Role:
+        </label>
         <input
           type="text"
           id="role"
@@ -37,7 +42,9 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onSubmit }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="skillLevel">Skill Level:</label>
+        <label htmlFor="skillLevel">
+          <FaStar /> Skill Level:
+        </label>
         <input
           type="text"
           id="skillLevel"
