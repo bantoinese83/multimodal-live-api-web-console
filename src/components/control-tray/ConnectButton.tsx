@@ -6,9 +6,10 @@ type ConnectButtonProps = {
   connected: boolean;
   connect: (role: string, skillLevel: string) => Promise<void>;
   disconnect: () => Promise<void>;
-  className?: string; // Add className to the props
+  className?: string;
   role: string;
   skillLevel: string;
+  name: string; // Add this line
 };
 
 const ConnectButton = forwardRef<HTMLButtonElement, ConnectButtonProps>(

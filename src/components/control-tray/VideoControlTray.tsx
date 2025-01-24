@@ -16,6 +16,9 @@ export type VideoControlTrayProps = {
   children?: ReactNode;
   supportsVideo: boolean;
   onVideoStreamChange?: (stream: MediaStream | null) => void;
+  role: string; // Add this line
+  skillLevel: string; // Add this line
+  name: string; // Add this line
 };
 
 const VideoControlTray: React.FC<VideoControlTrayProps> = ({
