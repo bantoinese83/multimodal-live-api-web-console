@@ -7,14 +7,7 @@
   padding: 10px;
   border-radius: 8px;
   transition: transform 0.3s ease;
-}
-
-.toolbar:hover {
-  transform: translateY(-5px);
-}
-.toolbar {
-  display: flex;
-  gap: 2px; /* Small gap between buttons for segmented layout */
+  gap: 5px; /* Small gap between buttons for segmented layout */
 }
 
 .toolbar .control-button {
@@ -113,82 +106,128 @@
 .toolbar .control-button:active {
   z-index: 999;
 }
+
 .audio-pulse {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
 }
 
 .audio-pulse div {
-    width: 5px;
-    height: 10px;
-    background-color: #5bc0de;
-    margin: 0 2px;
-    border-radius: 2px;
-    transition: height 0.1s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 5px;
+  height: 10px;
+  background-color: #5bc0de;
+  margin: 0 2px;
+  border-radius: 2px;
+  transition: height 0.1s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .audio-pulse div:hover {
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .media-stream-button {
-    background: linear-gradient(145deg, #555, #333);
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1.5rem;
-    margin: 0 5px;
-    padding: 10px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 5px rgba(0, 0, 0, 0.5);
-    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(145deg, #555, #333);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin: 0 5px;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .media-stream-button:hover {
-    color: #5bc0de;
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 0 7px rgba(0, 0, 0, 0.7);
+  color: #5bc0de;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 0 7px rgba(0, 0, 0, 0.7);
 }
 
 .streaming-status {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #5bc0de;
-    margin-left: 10px;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #5bc0de;
+  margin-left: 10px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .streaming-status:hover {
-    color: #fff;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Responsive styles */
+@media (max-width: 1024px) {
+  .toolbar {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .control-button {
+    width: 45px;
+    height: 35px;
+  }
+
+  .media-stream-button {
+    font-size: 1.3rem;
+    padding: 8px;
+  }
+
+  .streaming-status {
+    font-size: 1.1rem;
+  }
+}
+
 @media (max-width: 768px) {
-    .toolbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .control-button {
-        font-size: 1.2rem;
-        padding: 8px;
-    }
+  .control-button {
+    width: 40px;
+    height: 30px;
+    font-size: 1.2rem;
+    padding: 8px;
+  }
 
-    .media-stream-button {
-        font-size: 1.2rem;
-        padding: 8px;
-    }
+  .media-stream-button {
+    font-size: 1.2rem;
+    padding: 8px;
+  }
 
-    .streaming-status {
-        font-size: 1rem;
-        margin-left: 0;
-        margin-top: 10px;
-    }
+  .streaming-status {
+    font-size: 1rem;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    align-items: center;
+  }
+
+  .control-button {
+    width: 35px;
+    height: 25px;
+    font-size: 1rem;
+    padding: 6px;
+  }
+
+  .media-stream-button {
+    font-size: 1rem;
+    padding: 6px;
+  }
+
+  .streaming-status {
+    font-size: 0.9rem;
+  }
 }

@@ -17,7 +17,7 @@ const ConnectButton = forwardRef<HTMLButtonElement, ConnectButtonProps>(
 
     const handleConnect = async () => {
       await connect(role, skillLevel);
-      // Call sendInitialPrompt with role and skillLevel
+      // Call sendInitialPrompt with a role and skillLevel
       sendInitialPrompt(role, skillLevel);
     };
 

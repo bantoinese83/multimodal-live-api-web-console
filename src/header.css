@@ -1,0 +1,20 @@
+/* src/header.css */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #171616;
+  color: #fff;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.app-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}

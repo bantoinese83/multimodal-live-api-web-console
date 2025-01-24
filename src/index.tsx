@@ -4,6 +4,7 @@ import './toolbar.css';
 import './main.css';
 import './video.css';
 import './hero.scss';
+import './header.css';
 
 import MainApp from './MainApp';
 import reportWebVitals from './reportWebVitals';

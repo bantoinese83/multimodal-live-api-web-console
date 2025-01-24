@@ -7,12 +7,13 @@ type VideoPlayerProps = {
   muted?: boolean;
   loop?: boolean;
   className?: string;
+  role: "interviewer" | "hiringManager";
 };
 
 const VideoPlayer: React.FC<VideoPlayerProps> = forwardRef(
-  ({ videoRef, src, controls = true, muted = false, loop = false, className = "" }, ref) => {
+  ({ videoRef, src, controls = true, muted = false, loop = false, className = "", role }, ref) => {
     return (
-      <div className={className}>
+      <div className={`${className} ${role}`}>
         <video
           ref={videoRef}
           src={src}
@@ -21,7 +22,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = forwardRef(
           loop={loop}
           autoPlay
           playsInline
-          className="custom-video-player" // Add this class
+          className="custom-video-player"
         />
       </div>
     );
