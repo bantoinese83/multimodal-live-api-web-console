@@ -6,7 +6,6 @@ import { useScreenCapture } from "../../hooks/use-screen-capture";
 import { useWebcam } from "../../hooks/use-webcam";
 import { AudioRecorder } from "../../lib/audio-recorder";
 import AudioPulse from "../audio-pulse/AudioPulse";
-import "./control-tray.scss";
 
 export type VideoControlTrayProps = {
   videoRef: RefObject<HTMLVideoElement>;
@@ -26,11 +25,11 @@ type MediaStreamButtonProps = {
 const MediaStreamButton: React.FC<MediaStreamButtonProps> = memo(
   ({ isStreaming, onIcon, offIcon, start, stop }) =>
     isStreaming ? (
-      <button className="action-button" onClick={stop}>
+      <button className="control-button-streaming" onClick={stop}>
         <span className="material-symbols-outlined">{onIcon}</span>
       </button>
     ) : (
-      <button className="action-button" onClick={start}>
+      <button className="control-button-streaming" onClick={start}>
         <span className="material-symbols-outlined">{offIcon}</span>
       </button>
     ),
@@ -150,11 +149,11 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   };
 
   return (
-    <section className="control-tray">
+    <section className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex justify-center items-start gap-2 pb-4">
       <canvas style={{ display: "none" }} ref={renderCanvasRef} />
-      <nav className={cn("actions-nav", { disabled: !connected })}>
+      <nav className={cn("bg-neutral-900 border border-neutral-700 rounded-lg flex gap-3 items-center overflow-hidden p-2 transition-all duration-500", { "opacity-50": !connected })}>
         <button
-          className={cn("action-button mic-button")}
+          className={cn("control-button-mic", { "bg-red-500": !muted, "bg-gray-500": muted })}
           onClick={() => setMuted(!muted)}
         >
           {!muted ? (
@@ -164,7 +163,7 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
           )}
         </button>
 
-        <div className="action-button no-action outlined">
+        <div className="control-button-audio-pulse">
           <AudioPulse volume={volume} active={connected} hover={false} />
         </div>
 
@@ -187,11 +186,11 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
           </>
         )}
         {children}
-        <div className={cn("connection-container", { connected })}>
-          <div className="connection-button-container">
+        <div className={cn("flex flex-col justify-center items-center gap-1", { "opacity-100": connected, "opacity-50": !connected })}>
+          <div className="control-button-connection">
             <button
               ref={connectButtonRef}
-              className={cn("action-button connect-toggle", { connected })}
+              className={cn("control-button-connect", { "bg-green-500": connected, "bg-gray-500": !connected })}
               onClick={connected ? disconnect : connect}
             >
               <span className="material-symbols-outlined filled">
@@ -199,7 +198,7 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
               </span>
             </button>
           </div>
-          <span className="text-indicator">Streaming</span>
+          <span className="text-xs text-blue-500 select-none">Streaming</span>
         </div>
       </nav>
     </section>
