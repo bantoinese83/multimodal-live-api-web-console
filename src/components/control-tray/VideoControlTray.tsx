@@ -143,7 +143,7 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
         <ConnectButton
           ref={connectButtonRef}
           connected={connected}
-          connect={connect}
+          connect={() => connect(role, skillLevel)}
           disconnect={disconnect}
           role={role}
           skillLevel={skillLevel}
