@@ -6,7 +6,10 @@ import AudioPulse from "../audio-pulse/AudioPulse";
 import { AudioRecorder } from "../../lib/audio-recorder";
 import { useWebcam } from '../../hooks/use-webcam';
 import { useScreenCapture } from '../../hooks/use-screen-capture';
-import { Mic, MicOff, Pause, Play, Video, VideoOff, Presentation } from 'lucide-react';
+import MicButton from './MicButton';
+import ConnectButton from './ConnectButton';
+import ScreenCaptureButton from './ScreenCaptureButton';
+import WebcamButton from './WebcamButton';
 
 export type VideoControlTrayProps = {
   videoRef: RefObject<HTMLVideoElement>;
@@ -28,7 +31,6 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   const [audioRecorder] = useState(() => new AudioRecorder());
   const [muted, setMuted] = useState(false);
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
-  const connectButtonRef = useRef<HTMLButtonElement>(null);
 
   const { client, connected, connect, disconnect, volume } = useLiveAPIContext();
   const handleStreamChange = useHandleStreamChange(videoStreams, setActiveVideoStream, onVideoStreamChange);
@@ -116,41 +118,27 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
     <section>
       <canvas style={{ display: "none" }} ref={renderCanvasRef} />
       <nav className="toolbar">
-        <button className={`control-button control-button-mic ${muted ? 'muted' : ''}`} onClick={() => setMuted(!muted)}>
-          {!muted ? (
-            <Mic />
-          ) : (
-            <MicOff />
-          )}
-        </button>
+        <MicButton muted={muted} setMuted={setMuted} />
 
         <AudioPulse volume={volume} active={connected} hover={false} />
 
         {supportsVideo && (
           <>
-            <MediaStreamButton
+            <ScreenCaptureButton
               isStreaming={screenCapture.isStreaming}
               start={handleStreamChange(screenCapture)}
               stop={handleStreamChange()}
-              onIcon={<Presentation />}
-              offIcon={<Presentation />}
             />
-            <MediaStreamButton
+            <WebcamButton
               isStreaming={webcam.isStreaming}
               start={handleStreamChange(webcam)}
               stop={handleStreamChange()}
-              onIcon={<VideoOff />}
-              offIcon={<Video />}
             />
           </>
         )}
         {children}
-        <button className={`control-button control-button-connect ${connected ? '' : 'disconnected'}`} ref={connectButtonRef} onClick={connected ? disconnect : connect}>
-          <span>
-            {connected ? <Pause /> : <Play />}
-          </span>
-        </button>
-    <span className="streaming-status">Streaming</span>
+        <ConnectButton connected={connected} connect={connect} disconnect={disconnect} />
+        <span className="streaming-status">Streaming</span>
       </nav>
     </section>
   );
