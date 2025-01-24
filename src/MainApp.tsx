@@ -11,6 +11,9 @@ const MainApp: React.FC = () => {
     const interviewerVideoRef = useRef<HTMLVideoElement>(null);
     const hiringManagerVideoRef = useRef<HTMLVideoElement>(null);
     const [, setVideoStream] = useState<MediaStream | null>(null);
+    const [role, setRole] = useState<string>('');
+    const [skillLevel, setSkillLevel] = useState<string>('');
+    const [name, setName] = useState<string>('');
 
     return (
         <div className="main-app">
@@ -25,6 +28,9 @@ const MainApp: React.FC = () => {
                     videoRef={interviewerVideoRef}
                     supportsVideo={true}
                     onVideoStreamChange={setVideoStream}
+                    role={role}
+                    skillLevel={skillLevel}
+                    name={name}
                 />
             </LiveAPIProvider>
         </div>
