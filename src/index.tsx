@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './toolbar.css';
 import './main.css';
 import './video.css';
+import './hero.scss';
 
 import MainApp from './MainApp';
 import reportWebVitals from './reportWebVitals';

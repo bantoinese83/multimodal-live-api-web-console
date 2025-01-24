@@ -40,10 +40,18 @@ video:hover {
 
 /* Hide the default play button */
 video::-webkit-media-controls-play-button {
-  display: none;
+    display: none;
 }
 
 video::-webkit-media-controls-start-playback-button {
-  display: none;
+    display: none;
 }
 
+/* Hide the default volume control */
+video::-webkit-media-controls-volume-slider {
+    display: none;
+}
+
+video::-webkit-media-controls-mute-button {
+    display: none;
+}
