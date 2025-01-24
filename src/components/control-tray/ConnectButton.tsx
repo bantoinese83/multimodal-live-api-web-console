@@ -6,15 +6,23 @@ type ConnectButtonProps = {
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   className?: string; // Add className to the props
+  role: string;
+  skillLevel: string;
 };
 
 const ConnectButton = forwardRef<HTMLButtonElement, ConnectButtonProps>(
-  ({ connected, connect, disconnect, className = '' }, ref) => {
+  ({ connected, connect, disconnect, className = '', role, skillLevel }, ref) => {
+    const handleConnect = async () => {
+      await connect();
+      // Call sendInitialPrompt with role and skillLevel
+      sendInitialPrompt(role, skillLevel);
+    };
+
     return (
       <button
         ref={ref}
         className={`control-button control-button-connect ${connected ? '' : 'disconnected'} ${className}`}
-        onClick={connected ? disconnect : connect}
+        onClick={connected ? disconnect : handleConnect}
       >
         {connected ? <Pause /> : <Play />}
       </button>

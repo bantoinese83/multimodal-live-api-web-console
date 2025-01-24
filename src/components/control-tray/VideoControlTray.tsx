@@ -32,6 +32,8 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
   const [muted, setMuted] = useState(false);
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
+  const [role, setRole] = useState<string>('');
+  const [skillLevel, setSkillLevel] = useState<string>('');
 
   const { client, connected, connect, disconnect, volume } = useLiveAPIContext();
   const handleStreamChange = useHandleStreamChange(videoStreams, setActiveVideoStream, onVideoStreamChange);
@@ -143,6 +145,8 @@ const VideoControlTray: React.FC<VideoControlTrayProps> = ({
           connected={connected}
           connect={connect}
           disconnect={disconnect}
+          role={role}
+          skillLevel={skillLevel}
         />
         {connected && <Radio className="streaming-status" />}
       </nav>
